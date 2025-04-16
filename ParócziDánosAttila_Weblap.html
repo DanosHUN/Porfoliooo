@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dunaújvárosi Egyetem</title>
+    <style>
+        body {
+            background-color: #ADD8E6; /* Halvány kék háttér */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* A felirat a tetején legyen */
+            align-items: center;
+            height: 100vh;
+            font-family: "Times New Roman", Times, serif; /* Times New Roman betűtípus */
+            font-size: 12pt; /* 12-es betűméret */
+            position: relative; /* Ehhez szükséges a kép pozicionálásához */
+        }
+        h1 {
+            color: #4682B4; /* Sötétebb kék szín a felirathoz */
+            font-size: 2.5rem;
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #4682B4; /* Bekeretezés */
+            border-radius: 10px; /* Lekerekített sarkok */
+            background-color: #E0FFFF; /* Halványabb kék háttér a szövegnél */
+        }
+        p {
+            color: #4682B4;
+            font-size: 1.5rem;
+            margin-top: 10px; /* Kisebb margó a szöveghez */
+        }
+        .button-container {
+            margin-top: 15px; /* Kisebb margó a gombokhoz */
+        }
+        button {
+            background-color: #4682B4; /* Gomb háttér szín */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px; /* Kisebb távolság a gombok között */
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease; /* Animáció hozzáadása a méretnöveléshez */
+        }
+        button:hover {
+            background-color: #5A9BD5; /* Gomb hover szín */
+            transform: scale(1.1); /* Gomb növelése hoverkor */
+        }
+        .border-box {
+            color: #4682B4;
+            font-size: 2rem;
+            margin-top: 20px; /* Kisebb margó a bekeretezett felirathoz */
+            padding: 15px;
+            border: 2px solid #4682B4;
+            border-radius: 10px;
+            background-color: #E0FFFF;
+        }
+        .language-buttons {
+            margin-top: 10px; /* Kisebb margó a nyelvi gombokhoz */
+        }
+        .image-container {
+            margin-top: 20px;
+            display: none; /* Kezdetben rejtve */
+            justify-content: center;
+            align-items: center;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            width: 200px;
+        }
+        .top-left-image {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 250px;
+            height: auto;
+        }
+
+        /* A PDF fájlok megjelenítéséhez */
+        .pdf-container {
+            margin-top: 20px;
+            width: 50%; /* Kisebb szélesség (50%) */
+            height: 500px; /* Kisebb magasság (500px) */
+            border: 2px solid #4682B4;
+            display: none; /* Kezdetben rejtve */
+            position: absolute;
+            left: 10%; /* Kisebb bal oldali elhelyezés */
+            top: 300px; /* Lejjebb helyezve, hogy ne lógjon bele a szövegekbe */
+            resize: both; /* Méretezhetőség */
+            overflow: auto; /* Scrollbars engedélyezése, ha a tartalom nagyobb, mint az ablak */
+        }
+
+        .pdf-container iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <img src="banki_logo.jpg" alt="Logo" class="top-left-image">
+
+    <h1>Dunaújvárosi Egyetem Bánki Donát Technikum</h1>
+    
+    <div class="button-container">
+        <button onclick="changeContent('resume')">Rólam</button>
+        <button onclick="changeContent('11')">11.</button>
+        <button onclick="changeContent('12')">12.</button>
+        <button onclick="changeContent('13')">13.</button>
+    </div>
+
+    <p id="sub-text">Ez az alapértelmezett szöveg.</p> <!-- Ez a szöveg fog változni -->
+
+    <!-- 11. osztály -->
+    <div id="buttons-11" style="display: none;">
+        <button onclick="changeSemester('I')">I. félév</button>
+        <button onclick="changeSemester('II')">II. félév</button>
+    </div>
+
+    <!-- 12. osztály -->
+    <div id="buttons-12" style="display: none;">
+        <button onclick="changeSemester12('I')">I. félév</button>
+        <button onclick="changeSemester12('II')">II. félév</button>
+    </div>
+
+    <!-- 13. osztály -->
+    <div id="buttons-13" style="display: none;">
+        <button onclick="changeSemester13('I')">I. félév</button>
+        <button onclick="changeSemester13('II')">II. félév</button>
+    </div>
+
+    <!-- Tantárgyak gombok -->
+    <div id="semester-I" style="display: none;">
+        <button onclick="showClassContent('elektronika')">Elektronika</button>
+        <button onclick="showClassContent('mikrovezérló')">Mikrovezérlő programozás</button>
+    </div>
+
+    <div id="semester-II" style="display: none;">
+        <button onclick="showClassContent('programozas-alapjai')">Programozás alapjai</button>
+        <button onclick="showClassContent('digitalis-aramkorok')">Digitális áramkörök</button>
+    </div>
+
+    <div id="semester12-I" style="display: none;">
+        <button onclick="showClassContent('adatbazis')">Adatbázis kezelés alapjai</button>
+        <button onclick="showClassContent('halozatkezeles')">Hálózatkezelés</button>
+    </div>
+
+    <div id="semester12-II" style="display: none;">
+        <button onclick="showClassContent('plc-programozas')">PLC programozás</button>
+        <button onclick="showClassContent('szamitogepes-szimulacio')">Számítógépes szimuláció</button> <!-- Új gomb -->
+    </div>
+
+    <div id="semester13-I" style="display: none;">
+        <button onclick="showClassContent('munkavallalo-idegen-nyelv')">Munkavállalói idegen nyelv</button>
+        <button onclick="showClassContent('iot')">IoT</button>
+    </div>
+
+    <div id="semester13-II" style="display: none;">
+        <button onclick="showClassContent('programfejlesztes')">Programfejlesztés</button>
+        <button onclick="showClassContent('robottechnika')">Robottechnika CAD/CAM</button> <!-- Robottechnika CAD/CAM gomb -->
+    </div>
+
+    <!-- PDF megjelenítése -->
+    <div id="pdf-container" class="pdf-container">
+        <iframe id="pdf-viewer" src="" width="100%" height="100%"></iframe>
+    </div>
+
+    <script>
+        function changeContent(contentType) {
+            // Elrejti az összes tartalmat (PDF-ek, képek, stb.)
+            hideAllContent();
+
+            // A kiválasztott tartalom megjelenítése
+            if (contentType === '11') {
+                document.getElementById('buttons-11').style.display = 'block';
+            } else if (contentType === '12') {
+                document.getElementById('buttons-12').style.display = 'block';
+            } else if (contentType === '13') {
+                document.getElementById('buttons-13').style.display = 'block';
+            }
+        }
+
+        function hideAllContent() {
+            // Elrejt minden gombot és tartalmat
+            document.getElementById('buttons-11').style.display = 'none';
+            document.getElementById('buttons-12').style.display = 'none';
+            document.getElementById('buttons-13').style.display = 'none';
+            document.getElementById('semester-I').style.display = 'none';
+            document.getElementById('semester-II').style.display = 'none';
+            document.getElementById('semester12-I').style.display = 'none';
+            document.getElementById('semester12-II').style.display = 'none';
+            document.getElementById('semester13-I').style.display = 'none';
+            document.getElementById('semester13-II').style.display = 'none';
+            document.getElementById('pdf-container').style.display = 'none';
+        }
+
+        function changeSemester(semester) {
+            hideAllContent();
+            if (semester === 'I') {
+                document.getElementById('semester-I').style.display = 'block';
+            } else if (semester === 'II') {
+                document.getElementById('semester-II').style.display = 'block';
+            }
+        }
+
+        function changeSemester12(semester) {
+            hideAllContent();
+            if (semester === 'I') {
+                document.getElementById('semester12-I').style.display = 'block';
+            } else if (semester === 'II') {
+                document.getElementById('semester12-II').style.display = 'block';
+            }
+        }
+
+        function changeSemester13(semester) {
+            hideAllContent();
+            if (semester === 'I') {
+                document.getElementById('semester13-I').style.display = 'block';
+            } else if (semester === 'II') {
+                document.getElementById('semester13-II').style.display = 'block';
+            }
+        }
+
+        // Tantárgyakhoz tartozó PDF-ek megjelenítése
+        function showClassContent(classType) {
+            var pdfPath = "";
+
+            // Az egyes tantárgyakhoz tartozó PDF-ek elérési útja
+            if (classType === 'mikrovezérló') {
+                pdfPath = 'Mikrovezerlo.pdf';
+            } else if (classType === 'adatbazis') {
+                pdfPath = 'adatbazis.pdf';
+            } else if (classType === 'iot') {
+                pdfPath = 'IoT.pdf';
+            } else if (classType === 'robottechnika') {
+                pdfPath = 'CAD-CAM.pdf'; // CAD-CAM PDF hozzáadása
+            } else if (classType === 'programfejlesztes') { // Programfejlesztés PDF hozzáadása
+                pdfPath = 'programfejlesztes.pdf';
+            } else if (classType === 'programozas-alapjai') { // Programozás alapjai PDF hozzáadása
+                pdfPath = 'programfejlesztesalapjai.pdf'; // Itt a programfejlesztesalapjai.pdf fájl
+            } else if (classType === 'halozatkezeles') { // Hálózatkezelés PDF hozzáadása
+                pdfPath = 'Cisco.pdf';
+            } else if (classType === 'plc-programozas') { // PLC PDF hozzáadása
+                pdfPath = 'PLC.pdf';
+            } else if (classType === 'elektronika') { // Elektronika PDF hozzáadása
+                pdfPath = 'Meresi_jegyzokonyv.pdf';
+            } else if (classType === 'digitalis-aramkorok') { // Digitális áramkörök PDF hozzáadása
+                pdfPath = 'digitalis.pdf';
+            } else if (classType === 'szamitogepes-szimulacio') { // Számítógépes szimuláció PDF hozzáadása
+                pdfPath = 'szamitogepes-szimulacio.pdf';
+            }
+
+            if (pdfPath) {
+                // PDF beágyazása iframe-ben
+                document.getElementById('pdf-viewer').src = pdfPath;
+                document.getElementById('pdf-container').style.display = 'block';
+            }
+        }
+
+        // Teljes képernyős mód aktiválása
+        document.getElementById('pdf-container').addEventListener('dblclick', function () {
+            var pdfContainer = document.getElementById('pdf-container');
+            if (pdfContainer.requestFullscreen) {
+                pdfContainer.requestFullscreen();
+            } else if (pdfContainer.mozRequestFullScreen) { // Firefox
+                pdfContainer.mozRequestFullScreen();
+            } else if (pdfContainer.webkitRequestFullscreen) { // Chrome, Safari és Opera
+                pdfContainer.webkitRequestFullscreen();
+            } else if (pdfContainer.msRequestFullscreen) { // Internet Explorer/Edge
+                pdfContainer.msRequestFullscreen();
+            }
+        });
+    </script>
+</body>
+</html>
